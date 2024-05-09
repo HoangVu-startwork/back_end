@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: backend
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shopshop?createDatabaseIfNotExist=true
+    username: root
+    password: 0903075545
+
+server:
+  port: 8090
+  servlet:
+    context-path: /identity
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.Type: TRACE
+
+jwt:
+  signerKey: "R+5T4RVh5epK/9mfLUN/GCsnQAvfG+IgHx5wEoVflELif2kellQHDvyUwQPtp9HG"
+  secret: yourSecretKey
+
