@@ -1,10 +1,7 @@
 package com.example.shop.controller;
 
 
-import com.example.shop.dto.request.ApiResponse;
-import com.example.shop.dto.request.AuthenticaticationRequest;
-import com.example.shop.dto.request.IntrospectRequest;
-import com.example.shop.dto.request.LogoutRequest;
+import com.example.shop.dto.request.*;
 import com.example.shop.dto.response.AuthenticationResponse;
 import com.example.shop.dto.response.IntrospectResponse;
 import com.example.shop.service.AuthenticationService;
@@ -54,17 +51,23 @@ public class AuthenticonController {
 //                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null));
 //        }
 //    }
-@PostMapping("/logout")
-public ResponseEntity<ApiResponse<Void>> logout(@RequestBody LogoutRequest request) {
-    try {
-        authenticationService.logout(request);
-        return ResponseEntity.ok(new ApiResponse<>(200, "Logout successful", null));
-    } catch (JOSEException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error", null));
-    } catch (ParseException e) {
-        throw new RuntimeException(e);
+        @PostMapping("/logout")
+        public ResponseEntity<ApiResponse<Void>> logout(@RequestBody LogoutRequest request) {
+            try {
+                authenticationService.logout(request);
+                return ResponseEntity.ok(new ApiResponse<>(200, "Logout successful", null));
+            } catch (JOSEException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error", null));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    @PostMapping("/refresh")
+    public AuthenticationResponse refresh(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
+        return authenticationService.refreshToken(request);
     }
-}
+
 
 }

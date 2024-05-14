@@ -1,5 +1,7 @@
 package com.example.shop.dto.response;
 
+import com.example.shop.dto.request.IntrospectRequest;
+
 public class AuthenticationResponse {
 
     private String token;
@@ -12,6 +14,7 @@ public class AuthenticationResponse {
         this.token = token;
         this.authenticated = authenticated;
     }
+
 
     public String getToken() {
         return token;

@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
 import com.example.shop.dto.request.IntrospectRequest;
-import com.example.shop.service.AuthenticationService;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.text.ParseException;

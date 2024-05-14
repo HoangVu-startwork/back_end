@@ -1,10 +1,7 @@
 package com.example.shop.service;
 
 
-import com.example.shop.dto.request.ApiResponse;
-import com.example.shop.dto.request.AuthenticaticationRequest;
-import com.example.shop.dto.request.IntrospectRequest;
-import com.example.shop.dto.request.LogoutRequest;
+import com.example.shop.dto.request.*;
 import com.example.shop.dto.response.AuthenticationResponse;
 import com.example.shop.dto.response.IntrospectResponse;
 import com.example.shop.entily.InvalidatedToken;
@@ -158,6 +155,28 @@ public class AuthenticationService {
         if (invalidatedTokeRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         return signedJWT;
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request)
+            throws JOSEException, ParseException {
+        var signedJWT = verifyToken(request.getToken());
+
+        var jit = signedJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder().id(jit).expiryDate(expiryTime).build();
+
+        invalidatedTokeRepository.save(invalidatedToken);
+
+        var username = signedJWT.getJWTClaimsSet().getSubject();
+
+        var user = userRepository.findByUsername(username).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        var token = generateToken(user);
+        // Authentication successful
+        AuthenticationResponse response = new AuthenticationResponse(token, true);
+        return new ApiResponse<>(200, "Authentication successful 2", response).getResult();
     }
 
 }

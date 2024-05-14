@@ -41,6 +41,7 @@ public class AppplicationInitConfig {
                 User user = new User();
                 user.setEmail("admin@gmail.com"); // Đặt email cho người dùng admin
                 user.setPassword(passwordEncoder.encode("admin")); // Đặt mật khẩu cho người dùng admin
+                user.setUsername("admin@gmail.com");
 //                user.setRole(Role.ADMIN.name());
                 // Thêm các thông tin khác cho người dùng nếu cần
                 // Lưu người dùng mới vào UserRepository.
